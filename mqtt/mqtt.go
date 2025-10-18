@@ -25,26 +25,26 @@ type handler struct {
 	logger *zap.Logger
 }
 
-// func (h *handler) defaultMessageHandler(client mqtt.Client, msg mqtt.Message) {
-// 	h.logger.Info("Received message: %s from topic: %s\n", zap.ByteString("payload", msg.Payload()), zap.String("topic", msg.Topic()))
-// }
+func (h *handler) defaultMessageHandler(client mqtt.Client, msg mqtt.Message) {
+	h.logger.Info("Received message: %s from topic: %s\n", zap.ByteString("payload", msg.Payload()), zap.String("topic", msg.Topic()))
+}
 
-// func (h *handler) connectHandler(client mqtt.Client) {
-// 	h.logger.Info("Connected")
-// }
+func (h *handler) connectHandler(client mqtt.Client) {
+	h.logger.Info("Connected")
+}
 
-// func (h *handler) connectLostHandler(client mqtt.Client, err error) {
-// 	h.logger.Error("Connect lost: %v", zap.Error(err))
-// }
+func (h *handler) connectLostHandler(client mqtt.Client, err error) {
+	h.logger.Error("Connect lost: %v", zap.Error(err))
+}
 
 func NewMQTTClient(lc fx.Lifecycle, handler *handler) {
 	broker := "tcp://localhost:1883"
 	opts := mqtt.NewClientOptions().AddBroker(broker)
 	opts.SetUsername("user1")
 	opts.SetPassword("user1")
-	// opts.SetDefaultPublishHandler(handler.defaultMessageHandler)
-	// opts.OnConnect = handler.connectHandler
-	// opts.OnConnectionLost = handler.connectLostHandler
+	opts.SetDefaultPublishHandler(handler.defaultMessageHandler)
+	opts.OnConnect = handler.connectHandler
+	opts.OnConnectionLost = handler.connectLostHandler
 	client := mqtt.NewClient(opts)
 
 	lc.Append(fx.Hook{
