@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 
+	"github.com/IOT-Backend/repository"
 	"github.com/gorilla/mux"
 	"go.uber.org/fx"
 )
@@ -14,14 +15,16 @@ var Module = fx.Module("handler",
 	fx.Invoke(RegisterHandlers),
 )
 
-func NewHandler(router *mux.Router) *handler {
+func NewHandler(router *mux.Router, repo *repository.Repository) *handler {
 	return &handler{
 		Router: router,
+		Repo:   repo,
 	}
 }
 
 type handler struct {
 	Router *mux.Router
+	Repo   *repository.Repository
 }
 
 func RegisterHandlers(h *handler) {

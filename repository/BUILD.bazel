@@ -9,6 +9,7 @@ go_library(
     importpath = "github.com/IOT-Backend/repository",
     visibility = ["//visibility:public"],
     deps = [
+        "//types",
         "@org_mongodb_go_mongo_driver//mongo",
         "@org_uber_go_fx//:fx",
     ],

@@ -9,12 +9,12 @@ var Module = fx.Module("repository",
 	fx.Provide(NewRepository),
 )
 
-func NewRepository(client *mongo.Client) *repository {
-	return &repository{
+func NewRepository(client *mongo.Client) *Repository {
+	return &Repository{
 		client: client,
 	}
 }
 
-type repository struct {
+type Repository struct {
 	client *mongo.Client
 }
