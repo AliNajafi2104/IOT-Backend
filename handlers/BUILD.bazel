@@ -1,0 +1,9 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "handlers",
+    srcs = ["handlers.go"],
+    importpath = "github.com/IOT-Backend/handlers",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_gorilla_mux//:mux"],
+)
