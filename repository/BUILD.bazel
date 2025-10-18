@@ -1,0 +1,29 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "repository",
+    srcs = [
+        "repository.go",
+        "sites.go",
+    ],
+    importpath = "github.com/IOT-Backend/repository",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@org_mongodb_go_mongo_driver//mongo",
+        "@org_uber_go_fx//:fx",
+    ],
+)
+
+go_library(
+    name = "repositories",
+    srcs = [
+        "repository.go",
+        "sites.go",
+    ],
+    importpath = "github.com/IOT-Backend/repositories",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@org_mongodb_go_mongo_driver//mongo",
+        "@org_uber_go_fx//:fx",
+    ],
+)
