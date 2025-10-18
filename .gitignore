@@ -11,3 +11,7 @@
 # optional editor files
 .vscode/
 .idea/
+
+
+/mosquitto/data/
+/mosquitto/log/

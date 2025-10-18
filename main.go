@@ -7,6 +7,7 @@ import (
 
 	"github.com/IOT-Backend/db"
 	"github.com/IOT-Backend/handler"
+	"github.com/IOT-Backend/mqtt"
 	"github.com/IOT-Backend/repository"
 	"github.com/gorilla/mux"
 	"go.uber.org/fx"
@@ -35,6 +36,7 @@ func NewHTTPServer(lc fx.Lifecycle, r *mux.Router) *http.Server {
 func main() {
 
 	fx.New(
+		mqtt.Module,
 		repository.Module,
 		handler.Module,
 		fx.Provide(
