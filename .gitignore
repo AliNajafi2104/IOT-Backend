@@ -10,7 +10,7 @@
 
 # optional editor files
 .vscode/
-.idea/
+/.idea/
 
 
 /mosquitto/data/
