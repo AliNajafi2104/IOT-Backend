@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 
+	"github.com/IOT-Backend/config"
 	"github.com/IOT-Backend/db"
 	"github.com/IOT-Backend/handler"
 	"github.com/IOT-Backend/mqtt"
@@ -14,9 +16,9 @@ import (
 	"go.uber.org/zap"
 )
 
-func NewHTTPServer(lc fx.Lifecycle, r *mux.Router) *http.Server {
+func NewHTTPServer(lc fx.Lifecycle, r *mux.Router, cfg *config.Config) *http.Server {
 	srv := &http.Server{
-		Addr:    ":8000",
+		Addr:    fmt.Sprintf(":%s", cfg.Server.Port),
 		Handler: r,
 	}
 
@@ -43,6 +45,7 @@ func main() {
 			zap.NewProduction,
 			db.InitMongo,
 			mux.NewRouter,
+			config.LoadConfig,
 		),
 		fx.Invoke(NewHTTPServer),
 	).Run()

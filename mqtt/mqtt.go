@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/IOT-Backend/config"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
@@ -37,11 +38,11 @@ func (h *handler) connectLostHandler(client mqtt.Client, err error) {
 	h.logger.Error("Connect lost: %v", zap.Error(err))
 }
 
-func NewMQTTClient(lc fx.Lifecycle, handler *handler) {
-	broker := "tcp://localhost:1883"
+func NewMQTTClient(lc fx.Lifecycle, handler *handler, cfg *config.Config) {
+	broker := cfg.MQTT.Broker
 	opts := mqtt.NewClientOptions().AddBroker(broker)
-	opts.SetUsername("user1")
-	opts.SetPassword("user1")
+	opts.SetUsername(cfg.MQTT.Username)
+	opts.SetPassword(cfg.MQTT.Password)
 	opts.SetDefaultPublishHandler(handler.defaultMessageHandler)
 	opts.OnConnect = handler.connectHandler
 	opts.OnConnectionLost = handler.connectLostHandler

@@ -21,6 +21,7 @@ go_library(
     importpath = "github.com/IOT-Backend",
     visibility = ["//visibility:private"],
     deps = [
+        "//config",
         "//db",
         "//handler",
         "//mqtt",
