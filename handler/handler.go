@@ -1,9 +1,11 @@
 package handler
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/IOT-Backend/repository"
+	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/gorilla/mux"
 	"go.uber.org/fx"
 )
@@ -15,38 +17,48 @@ var Module = fx.Module("handler",
 	fx.Invoke(RegisterHandlers),
 )
 
-func NewHandler(router *mux.Router, repo *repository.Repository) *handler {
+func NewHandler(repo *repository.Repository, mqttClient mqtt.Client) *handler {
 	return &handler{
-		Router: router,
-		Repo:   repo,
+		Repo:       repo,
+		mqttClient: mqttClient,
 	}
 }
 
 type handler struct {
-	Router *mux.Router
-	Repo   *repository.Repository
+	Repo       *repository.Repository
+	mqttClient mqtt.Client
 }
 
-func RegisterHandlers(h *handler) {
+func RegisterHandlers(h *handler, router *mux.Router) {
 
-	h.Router.HandleFunc("/sites", h.getSites)
-	h.Router.HandleFunc("/sites/{id}", h.getSitesById)
-	h.Router.HandleFunc("/coordinaters/{id}", h.getCoordinatersById)
-	h.Router.HandleFunc("/nodes/{id}", h.getNodesById)
-	h.Router.HandleFunc("/color-profile", h.sendColorProfile)
-	h.Router.HandleFunc("/set-light", h.setLight)
-	h.Router.HandleFunc("/ota/start", h.StartOTAUpdate)
-	h.Router.HandleFunc("/ota/status", h.RetrieveOTAJobStatus)
-	h.Router.HandleFunc("/pairing/approve", h.ApproveNodePairing)
+	router.HandleFunc("/sites", h.getSites)
+	router.HandleFunc("/sites/{id}", h.getSiteById)
+	router.HandleFunc("/coordinaters/{id}", h.getCoordinatorById)
+	router.HandleFunc("/nodes/{id}", h.getNodeById)
+	router.HandleFunc("/color-profile", h.sendColorProfile)
+	router.HandleFunc("/set-light", h.setLight)
+	router.HandleFunc("/ota/start", h.StartOTAUpdate)
+	router.HandleFunc("/ota/status", h.RetrieveOTAJobStatus)
+	router.HandleFunc("/pairing/approve", h.ApproveNodePairing)
 
 }
 
-func (h *handler) getCoordinatersById(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello, World!"))
-}
+func (h *handler) getNodeById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+	node, err := h.Repo.GetNodeById(id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-func (h *handler) getNodesById(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello, World!"))
+	jsonData, err := json.Marshal(node)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
 }
 
 func (h *handler) sendColorProfile(w http.ResponseWriter, r *http.Request) {

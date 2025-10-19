@@ -3,6 +3,7 @@ load("@rules_go//go:def.bzl", "go_library")
 go_library(
     name = "handler",
     srcs = [
+        "coordinators.go",
         "handler.go",
         "sites.go",
     ],
@@ -10,6 +11,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//repository",
+        "@com_github_eclipse_paho_mqtt_golang//:paho_mqtt_golang",
         "@com_github_gorilla_mux//:mux",
         "@org_uber_go_fx//:fx",
     ],

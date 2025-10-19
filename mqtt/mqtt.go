@@ -3,6 +3,7 @@ package mqtt
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/IOT-Backend/config"
@@ -12,8 +13,13 @@ import (
 )
 
 var Module = fx.Module("mqtt",
-	fx.Provide(NewHandler),
-	fx.Invoke(NewMQTTClient),
+	fx.Provide(
+		NewHandler,
+		NewMQTTClient,
+	),
+	fx.Invoke(
+		RegisterSubscriptions,
+	),
 )
 
 func NewHandler(logger *zap.Logger) *handler {
@@ -27,6 +33,7 @@ type handler struct {
 }
 
 func (h *handler) defaultMessageHandler(client mqtt.Client, msg mqtt.Message) {
+	log.Default()
 	h.logger.Info("Received message: %s from topic: %s\n", zap.ByteString("payload", msg.Payload()), zap.String("topic", msg.Topic()))
 }
 
@@ -38,7 +45,7 @@ func (h *handler) connectLostHandler(client mqtt.Client, err error) {
 	h.logger.Error("Connect lost: %v", zap.Error(err))
 }
 
-func NewMQTTClient(lc fx.Lifecycle, handler *handler, cfg *config.Config) {
+func NewMQTTClient(lc fx.Lifecycle, handler *handler, cfg *config.Config) mqtt.Client {
 	broker := cfg.MQTT.Broker
 	opts := mqtt.NewClientOptions().AddBroker(broker)
 	opts.SetUsername(cfg.MQTT.Username)
@@ -57,8 +64,6 @@ func NewMQTTClient(lc fx.Lifecycle, handler *handler, cfg *config.Config) {
 			if err := token.Error(); err != nil {
 				return err
 			}
-
-			RegisterSubscriptions(client, handler)
 			return nil
 		},
 		OnStop: func(ctx context.Context) error {
@@ -66,6 +71,7 @@ func NewMQTTClient(lc fx.Lifecycle, handler *handler, cfg *config.Config) {
 			return nil
 		},
 	})
+	return client
 }
 
 func RegisterSubscriptions(client mqtt.Client, handler *handler) {
