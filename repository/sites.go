@@ -7,10 +7,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func (r *Repository) GetSites() ([]types.Site, error) {
+func (r *repositoryImpl) GetSites() ([]types.Site, error) {
 	ctx := context.Background()
 
-	coll := r.client.Database("iot").Collection("sites")
+	coll := r.db.Collection("sites")
 	cursor, err := coll.Find(ctx, struct{}{})
 	if err != nil {
 		return nil, err
@@ -23,11 +23,11 @@ func (r *Repository) GetSites() ([]types.Site, error) {
 	return results, nil
 }
 
-func (r *Repository) GetSiteById(id string) (*types.Site, error) {
+func (r *repositoryImpl) GetSiteById(id string) (*types.Site, error) {
 	ctx := context.Background()
 
-	filter := bson.D{{"id", id}}
-	coll := r.client.Database("iot").Collection("sites")
+	filter := bson.D{{Key: "id", Value: id}}
+	coll := r.db.Collection("sites")
 	site := &types.Site{}
 	err := coll.FindOne(ctx, filter).Decode(site)
 	if err != nil {

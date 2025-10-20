@@ -23,7 +23,11 @@ func LoadConfig() (*Config, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer f.Close()
+	defer func() {
+		if err := f.Close(); err != nil {
+			log.Printf("failed to close file %v", err)
+		}
+	}()
 
 	cfg := &Config{}
 	decoder := yaml.NewDecoder(f)
