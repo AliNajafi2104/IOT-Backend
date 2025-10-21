@@ -21,7 +21,7 @@ type Config struct {
 	} `yaml:"db"`
 }
 
-func LoadConfig() (*Config, error) {
+func NewConfig() (*Config, error) {
 	f, err := os.Open("/home/ali/5-semester/internet-of-things/IOT-Backend/config/config.yaml")
 	if err != nil {
 		log.Fatal(err)

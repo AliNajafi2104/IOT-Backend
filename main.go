@@ -13,13 +13,13 @@ import (
 
 func main() {
 	fx.New(
-		mqtt.Module,
 		http.Module,
+		mqtt.Module,
 		fx.Provide(
 			zap.NewProduction,
 			db.NewMongoDB,
 			mux.NewRouter,
-			config.LoadConfig,
+			config.NewConfig,
 			fx.Annotate(
 				repository.NewMongoRepository,
 				fx.As(new(repository.Repository)),

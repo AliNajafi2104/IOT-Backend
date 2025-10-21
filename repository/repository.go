@@ -8,6 +8,7 @@ import (
 	"github.com/IOT-Backend/types"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.uber.org/zap"
 )
 
 var _ Repository = (*MongoRepository)(nil)
@@ -21,7 +22,8 @@ type Repository interface {
 }
 
 type MongoRepository struct {
-	db *mongo.Database
+	db     *mongo.Database
+	logger *zap.Logger
 }
 
 func NewMongoRepository(db *mongo.Database) *MongoRepository {

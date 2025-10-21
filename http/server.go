@@ -19,7 +19,6 @@ func NewHTTPServer(lc fx.Lifecycle, r *mux.Router, cfg *config.Config) {
 
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
-			log.Println("starting server")
 			go func() {
 				if err := srv.ListenAndServe(); err != nil {
 					log.Fatal(err)
