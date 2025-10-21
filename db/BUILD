@@ -8,5 +8,6 @@ go_library(
     deps = [
         "@org_mongodb_go_mongo_driver//mongo",
         "@org_mongodb_go_mongo_driver//mongo/options",
+        "@org_uber_go_fx//:fx",
     ],
 )

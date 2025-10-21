@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/IOT-Backend/config"
 	"github.com/IOT-Backend/db"
-	"github.com/IOT-Backend/handler"
+	"github.com/IOT-Backend/http"
 	"github.com/IOT-Backend/mqtt"
 	"github.com/IOT-Backend/repository"
 	"github.com/gorilla/mux"
@@ -14,13 +14,16 @@ import (
 func main() {
 	fx.New(
 		mqtt.Module,
-		repository.Module,
-		handler.Module,
+		http.Module,
 		fx.Provide(
 			zap.NewProduction,
-			db.InitMongo,
+			db.NewMongoDB,
 			mux.NewRouter,
 			config.LoadConfig,
+			fx.Annotate(
+				repository.NewMongoRepository,
+				fx.As(new(repository.Repository)),
+			),
 		),
 	).Run()
 }
