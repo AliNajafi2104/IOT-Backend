@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/IOT-Backend/config"
-	"github.com/IOT-Backend/db"
-	"github.com/IOT-Backend/http"
-	"github.com/IOT-Backend/mqtt"
-	"github.com/IOT-Backend/repository"
+	"github.com/IOT-Backend/internal/config"
+	"github.com/IOT-Backend/internal/db"
+	"github.com/IOT-Backend/internal/http"
+	"github.com/IOT-Backend/internal/mqtt"
+	"github.com/IOT-Backend/internal/repository"
 	"github.com/gorilla/mux"
 	"go.uber.org/fx"
 	"go.uber.org/zap"

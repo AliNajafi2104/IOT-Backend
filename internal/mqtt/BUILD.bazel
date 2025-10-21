@@ -3,13 +3,14 @@ load("@rules_go//go:def.bzl", "go_library")
 go_library(
     name = "mqtt",
     srcs = [
+        "client.go",
         "handler.go",
-        "mqtt.go",
+        "module.go",
     ],
-    importpath = "github.com/IOT-Backend/mqtt",
+    importpath = "github.com/IOT-Backend/internal/mqtt",
     visibility = ["//visibility:public"],
     deps = [
-        "//config",
+        "//internal/config",
         "@com_github_eclipse_paho_mqtt_golang//:paho_mqtt_golang",
         "@org_uber_go_fx//:fx",
         "@org_uber_go_zap//:zap",

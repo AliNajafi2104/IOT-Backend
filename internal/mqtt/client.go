@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/IOT-Backend/config"
+	"github.com/IOT-Backend/internal/config"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"go.uber.org/fx"
 )

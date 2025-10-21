@@ -22,7 +22,7 @@ type Config struct {
 }
 
 func NewConfig() (*Config, error) {
-	f, err := os.Open("/home/ali/5-semester/internet-of-things/IOT-Backend/config/config.yaml")
+	f, err := os.Open("/home/ali/5-semester/internet-of-things/IOT-Backend/internal/config/config.yaml")
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/IOT-Backend/repository"
+	"github.com/IOT-Backend/internal/repository"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"

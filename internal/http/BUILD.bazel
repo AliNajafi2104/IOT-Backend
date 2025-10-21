@@ -18,3 +18,22 @@ go_library(
         "@org_uber_go_fx//:fx",
     ],
 )
+
+go_library(
+    name = "http",
+    srcs = [
+        "handler.go",
+        "module.go",
+        "server.go",
+    ],
+    importpath = "github.com/IOT-Backend/internal/http",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//internal/config",
+        "//internal/repository",
+        "@com_github_eclipse_paho_mqtt_golang//:paho_mqtt_golang",
+        "@com_github_gorilla_mux//:mux",
+        "@com_github_gorilla_websocket//:websocket",
+        "@org_uber_go_fx//:fx",
+    ],
+)

@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/IOT-Backend/config"
+	"github.com/IOT-Backend/internal/config"
 	"github.com/gorilla/mux"
 	"go.uber.org/fx"
 )

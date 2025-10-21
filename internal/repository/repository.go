@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/IOT-Backend/types"
+	"github.com/IOT-Backend/internal/types"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"

@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/IOT-Backend/config"
+	"github.com/IOT-Backend/internal/config"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.uber.org/fx"

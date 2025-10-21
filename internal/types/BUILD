@@ -3,6 +3,6 @@ load("@rules_go//go:def.bzl", "go_library")
 go_library(
     name = "types",
     srcs = ["types.go"],
-    importpath = "github.com/IOT-Backend/types",
+    importpath = "github.com/IOT-Backend/internal/types",
     visibility = ["//visibility:public"],
 )

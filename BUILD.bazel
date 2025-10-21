@@ -1,5 +1,3 @@
-load("@rules_go//go:def.bzl", "go_binary", "go_library")
-
 # IOT-Backend/BUILD.bazel
 
 load("@gazelle//:def.bzl", "gazelle")
@@ -7,27 +5,4 @@ load("@gazelle//:def.bzl", "gazelle")
 gazelle(
     name = "gazelle",
     prefix = "github.com/IOT-Backend",
-)
-
-go_binary(
-    name = "IOT-Backend",
-    embed = [":IOT-Backend_lib"],
-    visibility = ["//visibility:public"],
-)
-
-go_library(
-    name = "IOT-Backend_lib",
-    srcs = ["main.go"],
-    importpath = "github.com/IOT-Backend",
-    visibility = ["//visibility:private"],
-    deps = [
-        "//config",
-        "//db",
-        "//handler",
-        "//mqtt",
-        "//repository",
-        "@com_github_gorilla_mux//:mux",
-        "@org_uber_go_fx//:fx",
-        "@org_uber_go_zap//:zap",
-    ],
 )
