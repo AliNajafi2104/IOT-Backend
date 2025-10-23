@@ -10,6 +10,16 @@ import (
 	"go.uber.org/fx"
 )
 
+var Module = fx.Module("mqtt",
+	fx.Provide(
+		NewHandler,
+		NewMQTTClient,
+	),
+	fx.Invoke(
+		RegisterHandlers,
+	),
+)
+
 func NewMQTTClient(lc fx.Lifecycle, handler *Handler, cfg *config.Config) mqtt.Client {
 	broker := cfg.MQTT.Broker
 	opts := mqtt.NewClientOptions().AddBroker(broker)

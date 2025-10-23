@@ -34,22 +34,22 @@ func NewHandler(p Params) *Handler {
 
 func RegisterHandlers(h *Handler, router *mux.Router) {
 
-	router.HandleFunc("/sites", h.getSites)
-	router.HandleFunc("/sites/{id}", h.getSiteById)
-	router.HandleFunc("/coordinaters/{id}", h.getCoordinatorById)
+	router.HandleFunc("/sites", h.getSites).Methods("GET")
+	router.HandleFunc("/sites/{id}", h.getSiteById).Methods("GET")
+
+	router.HandleFunc("/ota/start", h.StartOTAUpdate).Methods("POST")
+	router.HandleFunc("/ota/status", h.RetrieveOTAJobStatus).Methods("GET")
+
+	router.HandleFunc("/coordinators/{id}", h.getCoordinatorById)
 	router.HandleFunc("/nodes/{id}", h.getNodeById)
 	router.HandleFunc("/color-profile", h.sendColorProfile)
 	router.HandleFunc("/set-light", h.setLight)
-	router.HandleFunc("/ota/start", h.StartOTAUpdate)
-	router.HandleFunc("/ota/status", h.RetrieveOTAJobStatus)
 	router.HandleFunc("/pairing/approve", h.ApproveNodePairing)
 	router.HandleFunc("/ws", h.websocket)
-
 }
 
 func (h *Handler) getNodeById(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
+	id := mux.Vars(r)["id"]
 	node, err := h.Repo.GetNodeById(id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -133,8 +133,7 @@ func (h *Handler) getSiteById(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) getCoordinatorById(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
+	id := mux.Vars(r)["id"]
 	coordinator, err := h.Repo.GetCoordinatorById(id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

@@ -1,5 +1,5 @@
-server:
-  port: "8000"
+http:
+  addr: ":8000"
 
 mqtt:
   broker: "tcp://localhost:1883"

@@ -8,8 +8,8 @@ import (
 )
 
 type Config struct {
-	Server struct {
-		Port string `yaml:"port"`
+	HTTP struct {
+		Addr string `yaml:"addr"`
 	} `yaml:"server"`
 	MQTT struct {
 		Broker   string `yaml:"broker"`
